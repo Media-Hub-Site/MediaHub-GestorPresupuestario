@@ -24,7 +24,12 @@ hidden_imports = [
     "jose",
     "cryptography",
     "dateutil",
+    "pydantic",
+    "pydantic.deprecated",
+    "pydantic.deprecated.decorator",
+    "email_validator",
 ]
+hidden_imports += collect_submodules("pydantic")
 hidden_imports += collect_submodules("models")
 hidden_imports += collect_submodules("services")
 hidden_imports += collect_submodules("schemas")
