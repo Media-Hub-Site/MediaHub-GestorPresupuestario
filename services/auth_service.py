@@ -1,7 +1,7 @@
 """
 Authentication service: register, login, token generation.
 """
-from fastapi import HTTPException, status
+from core.exceptions import HTTPException, status
 from sqlalchemy.orm import Session
 
 from core.currencies import get_currency

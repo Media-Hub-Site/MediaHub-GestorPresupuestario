@@ -3,13 +3,12 @@ Security utilities: password hashing and JWT token management.
 """
 from datetime import datetime, timedelta, timezone
 
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from core.config import settings
+from core.exceptions import HTTPException, status
 from db.database import get_db
 
 # ---------------------------------------------------------------------------
@@ -31,9 +30,6 @@ def verify_password(plain: str, hashed: str) -> bool:
 # ---------------------------------------------------------------------------
 # JWT tokens
 # ---------------------------------------------------------------------------
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
-
-
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     """Create a signed JWT access token."""
     to_encode = data.copy()
@@ -60,14 +56,11 @@ def decode_access_token(token: str) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Current user dependency
+# Current user retrieval
 # ---------------------------------------------------------------------------
-def get_current_user(
-    token: str = Depends(oauth2_scheme),
-    db: Session = Depends(get_db),
-):
-    """FastAPI dependency that extracts the authenticated user from the JWT."""
-    from models.models import User  # deferred import to avoid circular
+def get_user_from_token(token: str, db: Session):
+    """Extrae el usuario autenticado a partir de un JWT token."""
+    from models.models import User
 
     payload = decode_access_token(token)
     user_id: int | None = payload.get("sub")
@@ -83,3 +76,4 @@ def get_current_user(
             detail="Usuario no encontrado",
         )
     return user
+

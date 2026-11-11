@@ -1,7 +1,7 @@
 """
 Categorization rule service: CRUD for auto-classification rules.
 """
-from fastapi import HTTPException
+from core.exceptions import HTTPException
 from sqlalchemy.orm import Session
 
 from models.models import CategorizationRule, User

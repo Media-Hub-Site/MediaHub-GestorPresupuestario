@@ -1,7 +1,7 @@
 """
 Account service: CRUD operations and balance recalculation.
 """
-from fastapi import HTTPException, status
+from core.exceptions import HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 

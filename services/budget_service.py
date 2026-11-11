@@ -3,7 +3,7 @@ Budget service: CRUD and consumption metrics.
 """
 from datetime import date
 
-from fastapi import HTTPException, status
+from core.exceptions import HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import func, extract
 
